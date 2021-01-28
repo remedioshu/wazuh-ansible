@@ -1,5 +1,5 @@
 ---
-wazuh_agent_version: 4.0.3-1
+wazuh_agent_version: 4.0.4-1
 
 
 # Custom packages installation
@@ -12,7 +12,7 @@ wazuh_custom_packages_installation_agent_rpm_url: ""
 
 wazuh_agent_sources_installation:
   enabled: false
-  branch: "v4.0.3"
+  branch: "v4.0.4"
   user_language: "y"
   user_no_stop: "y"
   user_install_type: "agent"
@@ -30,7 +30,7 @@ wazuh_agent_sources_installation:
   user_agent_server_ip: "YOUR_MANAGER_IP"
   user_agent_server_name: null
   user_agent_config_profile: null
-  user_ca_store: "/var/ossec/wpk_root.pem"
+  user_ca_store: "{{ wazuh_dir }}/wpk_root.pem"
 
 wazuh_agent_yum_lock_timeout: 30
 
@@ -55,8 +55,10 @@ wazuh_winagent_config:
   auth_path_x86: C:\'Program Files (x86)'\ossec-agent\agent-auth.exe
   check_md5: True
   md5: ac2a7f83cab1f8e217083965de7b0c84
-wazuh_winagent_config_url: https://packages.wazuh.com/4.x/windows/wazuh-agent-4.0.3-1.msi
-wazuh_winagent_package_name: wazuh-agent-4.0.3-1.msi
+wazuh_winagent_config_url: https://packages.wazuh.com/4.x/windows/wazuh-agent-4.0.4-1.msi
+wazuh_winagent_package_name: wazuh-agent-4.0.4-1.msi
+
+wazuh_dir: "/var/ossec"
 
 wazuh_agent_repo:
   apt: 'deb https://packages.wazuh.com/4.x/apt/ stable main'
@@ -109,7 +111,7 @@ wazuh_agent_enrollment:
   server_ca_path: ''
   agent_certificate_path: ''
   agent_key_path: ''
-  authorization_pass_path: /var/ossec/etc/authd.pass
+  authorization_pass_path: "{{ wazuh_dir }}/etc/authd.pass"
   auto_method: 'no'
   delay_after_enrollment: 20
   use_source_ip: 'no'
@@ -326,7 +328,7 @@ wazuh_agent_localfiles:
       location: '/var/log/audit/audit.log'
   linux:
     - format: 'syslog'
-      location: '/var/ossec/logs/active-responses.log'
+      location: "{{ wazuh_dir }}/logs/active-responses.log"
     - format: 'full_command'
       command: 'last -n 20'
       frequency: '360'
@@ -358,7 +360,7 @@ wazuh_agent_labels:
 ## Active response
 wazuh_agent_active_response:
   ar_disabled: 'no'
-  ca_store: '/var/ossec/etc/wpk_root.pem'
+  ca_store: "{{ wazuh_dir }}/etc/wpk_root.pem"
   ca_store_win: 'wpk_root.pem'
   ca_verification: 'yes'
 
