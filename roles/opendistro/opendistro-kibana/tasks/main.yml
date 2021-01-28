@@ -28,6 +28,23 @@
 
 - import_tasks: security_actions.yml
 
+- name: "Ensure Kibana group exists"
+  group:
+    state: present
+    name: kibana
+    system: yes
+
+- name: "Ensure Kibana user exists"
+  user:
+    name: kibana
+    comment: "Kibana service user"
+    home: /usr/share/kibana
+    group: kibana
+    system: yes
+    state: present
+    shell: /sbin/nologin
+    local: yes
+
 - name: Copy Configuration File
   blockinfile:
     block: "{{ lookup('template', 'opendistro_kibana.yml.j2') }}"
