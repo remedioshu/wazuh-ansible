@@ -67,3 +67,6 @@ generate_certs: true
 perform_installation: true
 
 opendistro_nolog_sensible: true
+
+wazuh_ui_user: []
+wazuh_ui_admin: []

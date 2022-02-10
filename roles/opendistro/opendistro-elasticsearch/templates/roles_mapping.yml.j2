@@ -1,0 +1,81 @@
+---
+{{ ansible_managed | comment }}
+# In this file users, backendroles and hosts can be mapped to Open Distro Security roles.
+# Permissions for Opendistro roles are configured in roles.yml
+
+_meta:
+  type: "rolesmapping"
+  config_version: 2
+
+# Define your roles mapping here
+
+## Demo roles mapping
+
+all_access:
+  reserved: false
+  users:
+  - "eladmin"
+  backend_roles:
+  - "admin"
+  description: "Maps admin to all_access"
+
+own_index:
+  reserved: false
+  users:
+  - "*"
+  description: "Allow full access to an index named like the username"
+
+logstash:
+  reserved: false
+  backend_roles:
+  - "logstash"
+
+readall:
+  reserved: false
+  backend_roles:
+  - "readall"
+
+manage_snapshots:
+  reserved: false
+  backend_roles:
+  - "snapshotrestore"
+
+kibana_server:
+  reserved: true
+  users:
+  - "kibanaserver"
+
+kibana_user:
+  reserved: false
+  users:
+    - guest
+{% for user in wazuh_ui_admin %}
+    - {{ user }}
+{% endfor %}
+{% for user in wazuh_ui_user %}
+    - {{ user }}
+{% endfor %}
+  backend_roles:
+  - "kibanauser"
+  description: "Maps kibanauser to kibana_user"
+
+
+wazuh_ui_admin:
+  reserved: false
+{% if (wazuh_ui_admin | length > 0) %}
+  users:
+{%   for user in wazuh_ui_admin %}
+    - {{ user }}
+{% endfor %}
+{%   endif %}
+  description: "Wazuh Plugin Admin access maps"
+
+wazuh_ui_user:
+  reserved: false
+{% if (wazuh_ui_user | length > 0) %}
+  users:
+{%   for user in wazuh_ui_user %}
+    - {{ user }}
+{% endfor %}
+{%   endif %}
+  description: "Wazuh Plugin User access maps"
