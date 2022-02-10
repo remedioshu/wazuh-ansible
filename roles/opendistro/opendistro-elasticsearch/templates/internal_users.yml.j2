@@ -1,4 +1,5 @@
 ---
+{{ ansible_managed | comment }}
 # This is the internal user database
 # The hash value is a bcrypt hash and can be generated with plugin/tools/hash.sh
 
@@ -14,6 +15,16 @@ admin:
   backend_roles:
   - "admin"
   description: "admin user"
+
+eladmin:
+  hash: "{{ opendistro_admin_password }}"
+  reserved: false
+  description: "eladmin user"
+
+guest:
+  hash: "{{ opendistro_admin_password }}"
+  reserved: false
+  description: "guest user"
 
 kibanaserver:
   hash: "{{ opendistro_kibana_password }}"

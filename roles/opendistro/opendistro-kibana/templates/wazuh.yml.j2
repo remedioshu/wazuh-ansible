@@ -131,4 +131,6 @@ hosts:
       port: {{ api['port'] }}
       username: {{ api['username'] }}
       password: {{ api['password'] }}
+      # RBAC jogosultsaghoz:
+      run_as: true
 {% endfor %}
